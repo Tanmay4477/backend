@@ -5,8 +5,7 @@ import jwt from "jsonwebtoken"
 
 import Payload from "../utils/Payload";
 import request from "../utils/Request";
-import JsonType from "../utils/JsonType";
-
+import {JsonType} from "../utils/JsonType";
 
 function commonAuth(req: request, res: Response<JsonType>, next: NextFunction) :void | Response<JsonType>{
     try {
@@ -19,9 +18,7 @@ function commonAuth(req: request, res: Response<JsonType>, next: NextFunction) :
         try {
             const payload = jwt.verify(token, config.get('jwtSecret')) as Payload;
             req.userId = payload.userId;
-            req.role = payload.role
         } catch (error) {
-            console.log(error);
             return res.status(HTTPStatusCodes.UNAUTHORIZED).json({msg: "Token expired"});
         }
         next();
@@ -30,4 +27,4 @@ function commonAuth(req: request, res: Response<JsonType>, next: NextFunction) :
     }
 }
 
-export default commonAuth
+export default commonAuth;

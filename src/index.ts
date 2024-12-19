@@ -1,13 +1,13 @@
 import express, { Express } from "express";
 import apiRoutes from "./routes/main"
 import bodyParser from "body-parser";
-import connectDb from "./config/database";
+import connectDb from "./db/database";
+import config from "config";
 
 connectDb();
 
 const app: Express = express();
-const oldPort: string = process.env.PORT || "3001";
-const port: number = parseInt(oldPort);
+const port: number = config.get("port") || 3001;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));

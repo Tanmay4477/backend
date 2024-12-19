@@ -1,13 +1,13 @@
 import { connect } from "mongoose";
-import config from "config";
+import dotenv from "dotenv";
 
 const connectDb = async () => {
     try {
-        console.log(config, "ffffffffffffff");
-        const mongoURI: string = config.get("mongoURI") || "";
-        console.log(mongoURI, "CKJDNVDKJ")
+        dotenv.config();
+        const mongoURI: string = process.env.MONGO_URL || "";
         await connect(mongoURI);
     } catch (error) {
+        console.log("mongo url is down or incorrect")
         process.exit(1);
     }
 };

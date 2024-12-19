@@ -1,5 +1,9 @@
-type JsonType = {
+export type JsonType = {
     msg: string
 }
 
-export default JsonType
+export type LoginType = {
+    msg: string,
+    token: string
+}
+

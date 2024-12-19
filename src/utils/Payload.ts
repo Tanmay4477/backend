@@ -1,11 +1,7 @@
-enum Role {
-    Admin = "admin",
-    User = "user"
-}
+import { Types } from "mongoose";
 
 type Payload = {
-    userId: string,
-    role: Role
+    userId: Types.ObjectId,
 }
 
 export default Payload;
