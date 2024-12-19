@@ -19,6 +19,11 @@ const UserModel: Schema = new Schema({
             ref: 'Course'
         }
     ]
+}, {
+    strict: true,
+    collection: "User",
+    versionKey: false,
+    timestamps: true
 })
 
 const User = model<NewUserType>("User", UserModel);

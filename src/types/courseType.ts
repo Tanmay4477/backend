@@ -6,4 +6,7 @@ export type CourseType = {
     title: string,
     description: string,
     content: string,
+    price: number,
+    imageUrl: string,
+    videoUrls: Array<string>
 }

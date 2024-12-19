@@ -17,7 +17,12 @@ const adminModel = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Course'
     }]
-});
+}, {
+    strict: true,
+    collection: "Admin",
+    versionKey: false,
+    timestamps: true
+})
 
 const Admin = model<NewAdminType>("Admin", adminModel);
 export default Admin;

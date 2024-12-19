@@ -6,8 +6,7 @@ import User from '../models/userModel';
 import { hashPassword, verifyPassword } from "../helpers/password"
 import { NewUserType } from '../models/userModel';
 import generateJwtToken from '../helpers/jwt';
-import { Types } from 'mongoose';
-import { ObjectId } from 'mongodb';
+
 
 export async function signupRoute(
   req: Request,
@@ -61,9 +60,7 @@ export async function loginRoute(req: Request, res: Response<JsonType|LoginType>
     }
 
     const id: string = String(typedUser._id);
-    console.log(id)
     const token: string = generateJwtToken(id);
-    console.log(token)
     return res.status(HTTPStatusCodes.OK).json({ msg: "Login Successful", token: token })
 
   } catch (error) {
