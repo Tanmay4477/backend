@@ -7,7 +7,6 @@ import { hashPassword, verifyPassword } from "../helpers/password"
 import { NewUserType } from '../models/userModel';
 import generateJwtToken from '../helpers/jwt';
 
-
 export async function signupRoute(
   req: Request,
   res: Response<JsonType>,
@@ -37,6 +36,7 @@ export async function signupRoute(
     throw new Error("Something went wrong");
   }
 }
+
 
 export async function loginRoute(req: Request, res: Response<JsonType|LoginType>): Promise<any> {
   try {

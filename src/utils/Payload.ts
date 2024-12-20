@@ -1,7 +1,6 @@
-import { Types } from "mongoose";
 
 type Payload = {
-    userId: Types.ObjectId,
+    userId: string,
 }
 
 export default Payload;
