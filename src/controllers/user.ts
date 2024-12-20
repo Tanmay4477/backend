@@ -10,7 +10,7 @@ import Course, { NewCourseType } from '../models/courseModel';
 
 export async function signupRoute(
   req: Request,
-  res: Response<JsonType>,
+  res: Response<JsonType|LoginType>,
 ): Promise<any> {
   try {
     const schema = UserTypeWithoutCourses.safeParse(req.body);
@@ -28,11 +28,14 @@ export async function signupRoute(
     };
 
     const hashedPassword: string = await hashPassword(password);
-    const success = await User.create({username: username, password: hashedPassword});
-    if (!success) {
+    const user: NewUserType = await User.create({username: username, password: hashedPassword});
+    if (!user) {
         return res.status(HTTPStatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Something went wrong"});
     }
-    return res.status(HTTPStatusCodes.OK).json({ msg: "Signup Successful" });
+
+    const id:string = String(user._id);
+    const token: string = generateJwtToken(id);
+    return res.status(HTTPStatusCodes.OK).json({ msg: "Signup Successful", token: token });
   } catch (error) {
     console.error(error);
     throw new Error("Something went wrong");
