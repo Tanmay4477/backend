@@ -15,10 +15,11 @@ export async function signupRoute(
   try {
     const schema = UserTypeWithoutCourses.safeParse(req.body);
     if(schema.success === false) {
-        return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter valid input"});
+      console.log(schema.error.issues[0].message)
+      return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: schema.error.issues[0].message});
     }
-    const username: string = req.body.username;
-    const password: string = req.body.password;
+    const username: string = schema.data.username;
+    const password: string = schema.data.password;
 
     const usernameExists = await User.findOne({username});
 
@@ -43,10 +44,10 @@ export async function loginRoute(req: Request, res: Response<JsonType|LoginType>
   try {
     const schema = UserTypeWithoutCourses.safeParse(req.body);
     if(schema.success === false) {
-        return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter valid input"});
+        return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: schema.error.issues[0].message });
     }
-    const username: string = req.body.username;
-    const password: string = req.body.password;
+    const username: string = schema.data.username;
+    const password: string = schema.data.password;
 
     const user: NewUserType | null = await User.findOne({username});
 
