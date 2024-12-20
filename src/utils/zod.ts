@@ -13,3 +13,7 @@ export const CourseZodType = z.object({
     imageUrl: z.string().url(),
     videoUrls: z.array(z.string().url()).optional()
 })
+
+export const AddCourseZodType = z.object({
+    videoUrls: z.array(z.string().url())
+})

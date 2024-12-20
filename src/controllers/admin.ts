@@ -1,7 +1,8 @@
+import { AdminType } from './../types/adminType';
 import HTTPStatusCodes from 'http-status-codes';
 import { Request, Response } from "express";
 import {JsonType, LoginType} from "../utils/JsonType";
-import { UserTypeWithoutCourses, CourseZodType } from '../utils/zod';
+import { UserTypeWithoutCourses, CourseZodType, AddCourseZodType } from '../utils/zod';
 import Admin from '../models/adminModel';
 import { hashPassword, verifyPassword } from "../helpers/password"
 import { NewAdminType } from '../models/adminModel';
@@ -20,8 +21,8 @@ export async function adminSignup(
     if(schema.success === false) {
         return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter valid input"});
     }
-    const username: string = req.body.username;
-    const password: string = req.body.password;
+    const username: string = schema.data.username;
+    const password: string = schema.data.password;
 
     const usernameExists = await Admin.findOne({username});
 
@@ -47,8 +48,8 @@ export async function adminLogin(req: Request, res: Response<JsonType|LoginType>
     if(schema.success === false) {
         return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter valid input"});
     }
-    const username: string = req.body.username;
-    const password: string = req.body.password;
+    const username: string = schema.data.username;
+    const password: string = schema.data.password;
 
     const user: NewAdminType | null = await Admin.findOne({username});
 
@@ -77,7 +78,7 @@ export async function createCourse(req: any, res: Response<JsonType>): Promise<a
         if(schema.success === false) {
             return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter all inputs"});
         }
-        const {title, description, content, price, imageUrl, videoUrls} = req.body;
+        const {title, description, content, price, imageUrl, videoUrls} = schema.data;
         const data: any = {
           title: title,
           description: description,
@@ -99,19 +100,57 @@ export async function createCourse(req: any, res: Response<JsonType>): Promise<a
     }
 }
 
-
-
 export async function deleteCourse(req: any, res: Response<JsonType>): Promise<any> {
   try {
     const id: string = req.params.id;
-    console.log("id", id);
+    const course: any = await Course.findById(id);
 
-    const course = Course.findById(id);
+    if(!course) {
+      return res.status(HTTPStatusCodes.OK).json({ msg: "Unsuccessful, Course is not deleted yet, please try again later"});
+    }
 
-    console.log(course, "course");
+    if(course.adminId.toString() !== req.userId) {
+      return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "You are not eligible to delete this course" });
+    }
 
-
+    const deletedCourse: any = await Course.findByIdAndDelete(id);
     return res.status(HTTPStatusCodes.OK).json({ msg: "Course Deleted Successfully"});
+  }
+  catch (error) {
+    throw new Error("Something went wrong");
+  }
+}
+
+export async function addContent(req: any, res: Response<JsonType>): Promise<any> {
+  try {
+    const id: string = req.params.id;
+    const course: any = await Course.findById(id);
+
+    if(!course) {
+      return res.status(HTTPStatusCodes.OK).json({ msg: "Unsuccessful, Course is not deleted yet, please try again later"});
+    }
+
+    if(course.adminId.toString() !== req.userId) {
+      return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "You are not eligible to delete this course" });
+    }
+
+    const schema = AddCourseZodType.safeParse(req.body);
+    if(schema.success === false) {
+      return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter all inputs"});
+    }
+
+    const videoArray: string[] | null = await Course.findById(id);
+    const videoUrls: any = schema.data;
+    videoArray?.push(...videoUrls)
+
+    const updatedValue: NewCourseType | null = await Course.findByIdAndUpdate(id, {videoUrls: videoArray})
+    console.log(updatedValue, "kjfnvdkjvj");
+
+    if(!updatedValue) {
+      return res.status(HTTPStatusCodes.BAD_REQUEST).json({ msg: "Not able to update Urls"});
+    }
+
+    return res.status(HTTPStatusCodes.OK).json({ msg: "Course Updated Successfully"});
   }
   catch (error) {
     throw new Error("Something went wrong");

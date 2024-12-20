@@ -4,6 +4,11 @@ export type JsonType = {
     msg: string
 }
 
+export type ParticularCourse = {
+    msg: string,
+    courses: NewCourseType[]
+}
+
 export type LoginType = {
     msg: string,
     token: string
