@@ -85,9 +85,7 @@ export async function purchaseRoute(req: any, res: Response<JsonType>): Promise<
       return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "Login First" });
     }
 
-    const allUsers = course.users;
-    allUsers.push(req.userId);
-    await User.findByIdAndUpdate(id, {users: allUsers});
+    await Course.findByIdAndUpdate(id, {$push: { users: req.userId }});
     return res.status(HTTPStatusCodes.OK).json({ msg: "Purchase Successful" })
 
   } catch (error) {

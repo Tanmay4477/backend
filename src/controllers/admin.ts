@@ -139,11 +139,9 @@ export async function addContent(req: any, res: Response<JsonType>): Promise<any
       return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter all inputs"});
     }
 
-    const videoArray: string[] | null = await Course.findById(id);
-    const videoUrls: any = schema.data;
-    videoArray?.push(...videoUrls)
+    const videos: string[] = schema.data.videoUrls;
 
-    const updatedValue: NewCourseType | null = await Course.findByIdAndUpdate(id, {videoUrls: videoArray})
+    const updatedValue: NewCourseType | null = await Course.findByIdAndUpdate(id, { $push: { videoUrls: { $each: videos}}});
     console.log(updatedValue, "kjfnvdkjvj");
 
     if(!updatedValue) {
