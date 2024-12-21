@@ -7,7 +7,7 @@ import { hashPassword, verifyPassword } from "../helpers/password"
 import { NewAdminType } from '../models/adminModel';
 import generateJwtToken from '../helpers/jwt';
 import Course, { NewCourseType } from '../models/courseModel';
-import request from '../utils/Request';
+import CustomRequest from '../utils/Request';
 
 
 export async function adminSignup(
@@ -70,7 +70,7 @@ export async function adminLogin(req: Request, res: Response<JsonType|LoginType>
   }
 }
 
-export async function createCourse(req: request, res: Response<JsonType>): Promise<any> {
+export async function createCourse(req: any, res: Response<JsonType>): Promise<any> {
     try {
         const schema = CourseZodType.safeParse(req.body);
         if(schema.success === false) {
@@ -98,7 +98,7 @@ export async function createCourse(req: request, res: Response<JsonType>): Promi
     }
 }
 
-export async function deleteCourse(req: request, res: Response<JsonType>): Promise<any> {
+export async function deleteCourse(req: any, res: Response<JsonType>): Promise<any> {
   try {
     const id: string = req.params.id;
     const course: NewCourseType | null = await Course.findById(id);
@@ -120,7 +120,7 @@ export async function deleteCourse(req: request, res: Response<JsonType>): Promi
   }
 }
 
-export async function addContent(req: request, res: Response<JsonType>): Promise<any> {
+export async function addContent(req: any, res: Response<JsonType>): Promise<any> {
   try {
     const id: string = req.params.id;
     const course: NewCourseType | null = await Course.findById(id);

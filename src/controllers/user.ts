@@ -7,7 +7,7 @@ import { hashPassword, verifyPassword } from "../helpers/password"
 import { NewUserType } from '../models/userModel';
 import generateJwtToken from '../helpers/jwt';
 import Course, { NewCourseType } from '../models/courseModel';
-import request from '../utils/Request';
+import CustomRequest from '../utils/Request';
 
 export async function signupRoute(
   req: Request,
@@ -74,7 +74,7 @@ export async function loginRoute(req: Request, res: Response<JsonType|LoginType>
   }
 }
 
-export async function purchaseRoute(req: request, res: Response<JsonType>): Promise<any> {
+export async function purchaseRoute(req: any, res: Response<JsonType>): Promise<any> {
   try {
     const id: string = req.params.id;
 
@@ -94,7 +94,7 @@ export async function purchaseRoute(req: request, res: Response<JsonType>): Prom
   }
 }
 
-export async function allPurchaseCourseRoute(req: request, res: Response<JsonType | ParticularCourse>): Promise<any> {
+export async function allPurchaseCourseRoute(req: any, res: Response<JsonType | ParticularCourse>): Promise<any> {
   try {
     if(!req.userId) {
       return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "Login First" });

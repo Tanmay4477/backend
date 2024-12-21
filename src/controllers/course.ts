@@ -1,15 +1,8 @@
-import { AllCoursesType } from './../utils/JsonType';
 import HTTPStatusCodes from 'http-status-codes';
 import { Request, Response } from "express";
-import {JsonType, LoginType} from "../utils/JsonType";
-import { UserTypeWithoutCourses, CourseZodType } from '../utils/zod';
-import Admin from '../models/adminModel';
-import { hashPassword, verifyPassword } from "../helpers/password"
-import { NewAdminType } from '../models/adminModel';
-import generateJwtToken from '../helpers/jwt';
-import Course, { NewCourseType } from '../models/courseModel';
-import request from '../utils/Request';
-import { CourseType } from '../types/courseType';
+import {JsonType, AllCoursesType} from "../utils/JsonType";
+import Course from '../models/courseModel';
+
 
 
 export async function allCourseRoute(req: Request, res: Response<AllCoursesType | JsonType>): Promise<any> {

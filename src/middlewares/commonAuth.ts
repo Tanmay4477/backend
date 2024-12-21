@@ -5,9 +5,9 @@ import HTTPStatusCodes from "http-status-codes";
 import jwt from "jsonwebtoken"
 
 import { Payload } from "../utils/Payload";
-import request from '../utils/Request';
+import CustomRequest from '../utils/Request';
 
-function commonAuth(req: request, res: Response, next: NextFunction) :void | Response<JsonType>{
+function commonAuth(req: any, res: Response, next: NextFunction) :any | Response<JsonType>{
     try {
         const token = req.header('Authorization') as string;
 
