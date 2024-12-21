@@ -1,15 +1,15 @@
+import { JsonType } from './../utils/JsonType';
 import config from "config"
 import { Response, NextFunction} from "express";
 import HTTPStatusCodes from "http-status-codes";
 import jwt from "jsonwebtoken"
 
-import Payload from "../utils/Payload";
-import request from "../utils/Request";
-import {JsonType} from "../utils/JsonType";
+import { Payload } from "../utils/Payload";
+import request from '../utils/Request';
 
-function commonAuth(req: any, res: any, next: NextFunction) :void | any{
+function commonAuth(req: request, res: Response, next: NextFunction) :void | Response<JsonType>{
     try {
-        const token = req.header('Authorization');
+        const token = req.header('Authorization') as string;
 
         if (!token) {
             return res.status(HTTPStatusCodes.UNAUTHORIZED).json({msg: "Authorization not allowed, Please provide the token"});

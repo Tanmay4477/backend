@@ -12,10 +12,10 @@ import request from '../utils/Request';
 import { CourseType } from '../types/courseType';
 
 
-export async function allCourseRoute(req: any, res: Response<AllCoursesType | JsonType>): Promise<any> {
+export async function allCourseRoute(req: Request, res: Response<AllCoursesType | JsonType>): Promise<any> {
   try {
-    const page: number = parseInt(req.query.page) || 1;
-    const limit: number = parseInt(req.query.limit) || 10;
+    const page: number = parseInt(req.query.page as string, 10) || 1;
+    const limit: number = parseInt(req.query.limit as string, 10) || 10;
 
     const courses: any = await Course.find({ videoUrls: { $ne: [] } }).sort({createdAt: -1}).skip((page-1)*limit).limit(limit);
 
@@ -31,7 +31,7 @@ export async function allCourseRoute(req: any, res: Response<AllCoursesType | Js
 }
 
 
-export async function singleCourseRoute(req: any, res: Response<AllCoursesType | JsonType>): Promise<any> {
+export async function singleCourseRoute(req: Request, res: Response<AllCoursesType | JsonType>): Promise<any> {
     try {
       const id: string = req.params.id
       const courses: any = await Course.findById(id);

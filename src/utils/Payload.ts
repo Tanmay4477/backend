@@ -1,6 +1,11 @@
 
-type Payload = {
+export type Payload = {
     userId: string,
 }
 
-export default Payload;
+// export type QueryParam = {
+//     page: string,
+//     limit: string
+// }
+
+
