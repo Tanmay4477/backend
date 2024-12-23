@@ -37,6 +37,7 @@ export async function signupRoute(
     const id:string = String(user._id);
     const token: string = generateJwtToken(id);
     return res.status(HTTPStatusCodes.OK).json({ msg: "Signup Successful", token: token });
+    // token added in signup
   } catch (error) {
     console.error(error);
     throw new Error("Something went wrong");
@@ -113,3 +114,4 @@ export async function allPurchaseCourseRoute(req: any, res: Response<JsonType | 
     throw new Error("Something went wrong");
   }
 }
+
