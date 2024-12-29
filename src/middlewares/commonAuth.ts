@@ -7,7 +7,7 @@ import jwt from "jsonwebtoken"
 import { Payload } from "../utils/Payload";
 import CustomRequest from '../utils/Request';
 
-function commonAuth(req: any, res: Response, next: NextFunction) :any | Response<JsonType>{
+function commonAuth(req: any, res: Response, next: NextFunction): any{
     try {
         const token = req.header('Authorization') as string;
 
