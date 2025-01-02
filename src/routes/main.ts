@@ -18,7 +18,7 @@ router.get("/courses/:id", singleCourseRoute);
 router.post("/admin/signup", adminSignup);
 router.post("/admin/login", adminLogin);
 router.post("/admin/course", commonAuth, createCourse);
-router.delete("/admin/course/:id",commonAuth, deleteCourse);
 router.patch("/admin/course/:id",commonAuth, addContent)
+router.delete("/admin/course/:id",commonAuth, deleteCourse);
 
 export default router;

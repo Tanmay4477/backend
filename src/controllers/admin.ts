@@ -130,7 +130,7 @@ export async function addContent(req: any, res: Response<JsonType>): Promise<any
     }
 
     if(course.adminId.toString() !== req.userId) {
-      return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "You are not eligible to delete this course" });
+      return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "You are not eligible to edit this course" });
     }
 
     const schema = AddCourseZodType.safeParse(req.body);
