@@ -33,7 +33,7 @@ export async function singleCourseRoute(req: Request, res: Response<AllCoursesTy
         return res.status(HTTPStatusCodes.BAD_REQUEST).json({ msg: "No courses available" })
       }
       console.log(courses);
-      return res.status(HTTPStatusCodes.OK).json({ msg: "Signup Successful", data: courses });
+      return res.status(HTTPStatusCodes.OK).json({ msg: "Fetched successful", data: courses });
     } catch (error) {
       console.error(error);
       throw new Error("Something went wrong");

@@ -86,7 +86,12 @@ export async function purchaseRoute(req: any, res: Response<JsonType>): Promise<
       return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "Login First" });
     }
 
-    await Course.findByIdAndUpdate(id, {$push: { users: req.userId }});
+    const something = await Course.findOneAndUpdate(
+      { _id: id }, 
+      { $push: { users: req.userId } },
+      { new: true }
+    );
+      console.log("something", something);
     return res.status(HTTPStatusCodes.OK).json({ msg: "Purchase Successful" })
 
   } catch (error) {
@@ -96,6 +101,7 @@ export async function purchaseRoute(req: any, res: Response<JsonType>): Promise<
 
 export async function allPurchaseCourseRoute(req: any, res: Response<JsonType | ParticularCourse>): Promise<any> {
   try {
+    console.log("123");
     if(!req.userId) {
       return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "Login First" });
     }
@@ -103,7 +109,8 @@ export async function allPurchaseCourseRoute(req: any, res: Response<JsonType | 
     if(!user) {
       return res.status(HTTPStatusCodes.BAD_REQUEST).json({ msg: "User not found "});
     }
-    
+
+    console.log("1", user, "userssss");
     const courses: any = user.courseId;
     console.log(courses, "coursesssssss");
     

@@ -1,5 +1,6 @@
 import {model, Schema, Document} from "mongoose"
 import { CourseType } from "../types/courseType"
+import User from "./userModel";
 
 export interface NewCourseType extends CourseType, Document {}
 
@@ -42,5 +43,16 @@ const CourseSchema: Schema = new Schema({
     timestamps: true
 })
 
+CourseSchema.post("findOneAndUpdate", async function(doc){
+    if (!doc) return
+    const courseId = doc._id;
+    const userIds = doc.users;
+
+    await User.updateMany(
+        { _id: { $in: userIds }},
+        { $addToSet: { courseId }}
+    );
+});
+
 const Course = model<NewCourseType>("Course", CourseSchema)
-export default Course
+export default Course;
