@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { signupRoute, loginRoute, purchaseRoute, allPurchaseCourseRoute } from "../controllers/user";
-import { adminSignup, adminLogin, createCourse, deleteCourse, addContent } from "../controllers/admin";
+import { adminSignup, adminLogin, createCourse, deleteCourse, addContent, getAllCourse } from "../controllers/admin";
 import { allCourseRoute, singleCourseRoute } from "../controllers/course";
 import commonAuth from "../middlewares/commonAuth"
 
@@ -18,6 +18,7 @@ router.get("/courses/:id", singleCourseRoute);
 router.post("/admin/signup", adminSignup);
 router.post("/admin/login", adminLogin);
 router.post("/admin/course", commonAuth, createCourse);
+router.get("/admin/course", commonAuth, getAllCourse)
 router.patch("/admin/course/:id",commonAuth, addContent)
 router.delete("/admin/course/:id",commonAuth, deleteCourse);
 

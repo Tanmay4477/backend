@@ -7,6 +7,7 @@ import Course from '../models/courseModel';
 
 export async function allCourseRoute(req: Request, res: Response<AllCoursesType | JsonType>): Promise<any> {
   try {
+    console.log("hi");
     const page: number = parseInt(req.query.page as string, 10) || 1;
     const limit: number = parseInt(req.query.limit as string, 10) || 10;
 

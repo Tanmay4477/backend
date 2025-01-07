@@ -1,6 +1,6 @@
 import HTTPStatusCodes from 'http-status-codes';
 import { Request, Response } from "express";
-import {JsonType, LoginType} from "../utils/JsonType";
+import {AllCoursesType, JsonType, LoginType, ParticularCourse} from "../utils/JsonType";
 import { UserTypeWithoutCourses, CourseZodType, AddCourseZodType } from '../utils/zod';
 import Admin from '../models/adminModel';
 import { hashPassword, verifyPassword } from "../helpers/password"
@@ -16,6 +16,7 @@ export async function adminSignup(
 ): Promise<any> {
   try {
     const schema = UserTypeWithoutCourses.safeParse(req.body);
+    console.log(req.body)
     if(schema.success === false) {
         return res.status(HTTPStatusCodes.UNAUTHORIZED).json({ msg: "Please enter valid input"});
     }
@@ -96,6 +97,17 @@ export async function createCourse(req: any, res: Response<JsonType>): Promise<a
     } catch (error) {
         throw new Error("Something went wrong");
     }
+}
+
+export async function getAllCourse(req: any, res: Response<JsonType | AllCoursesType>): Promise<any> {
+  try {
+    const id = req.userId;
+    const adminCourse = await Course.find({adminId: id});
+    return res.status(HTTPStatusCodes.OK).json({ msg: "Course Fetched Successfully", data: adminCourse});
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong");
+  }
 }
 
 export async function deleteCourse(req: any, res: Response<JsonType>): Promise<any> {

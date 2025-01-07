@@ -105,7 +105,9 @@ export async function allPurchaseCourseRoute(req: any, res: Response<JsonType | 
     if(!req.userId) {
       return res.status(HTTPStatusCodes.BAD_GATEWAY).json({ msg: "Login First" });
     }
+    console.log("req", req);
     const user: NewUserType | null = await User.findById(req.userId);
+    console.log("user", user);
     if(!user) {
       return res.status(HTTPStatusCodes.BAD_REQUEST).json({ msg: "User not found "});
     }
@@ -117,6 +119,7 @@ export async function allPurchaseCourseRoute(req: any, res: Response<JsonType | 
     return res.status(HTTPStatusCodes.OK).json({ msg: "Fetched Successfully", courses: courses })
 
   } catch (error) {
+    console.log(error, "error");
     throw new Error("Something went wrong");
   }
 }
